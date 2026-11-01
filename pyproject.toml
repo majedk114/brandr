@@ -1,16 +1,16 @@
 [project]
-name = "brandr-agent"
-version = "0.1.0"
-description = "Autonomous social media manager agent: plan, create, schedule, publish, analyze, improve."
+name = "genx-studio"
+version = "0.2.0"
+description = "Genx Studio: نظام إدارة محفظة حسابات سوشيال ميديا، كل حساب مشروع معزول."
 requires-python = ">=3.10"
-dependencies = ["anthropic>=0.40"]
+dependencies = []
 
 [project.scripts]
-brandr = "brandr_agent.cli:main"
+genx = "genx.cli:main"
 
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["brandr_agent"]
+packages = ["genx"]

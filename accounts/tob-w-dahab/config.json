@@ -1,0 +1,37 @@
+{
+  "name": "توب ودهب",
+  "type": "community",
+  "status": "pilot",
+  "niche": "جمال وإكسسوارات وذهب وموضة",
+  "platforms": [
+    "instagram",
+    "tiktok",
+    "facebook"
+  ],
+  "formats": [
+    "reel",
+    "carousel",
+    "image"
+  ],
+  "audience_timezone": "+03:00",
+  "autonomy": "every_post",
+  "ideas": {
+    "A": "عرض الذهب والإكسسوارات: التصاميم واتجاهات السوق",
+    "B": "تنسيق إطلالات بإكسسوارات بأسعار في المتناول"
+  },
+  "decisive_metric": "الحفظ والمشاركة + رسائل الاستفسار",
+  "posts_per_week": 5,
+  "ai_label_required": false,
+  "banned_words": [
+    "مضمون 100%",
+    "الأفضل في العالم",
+    "أرخص سعر",
+    "عيار مضمون"
+  ],
+  "limits": {
+    "max_posts_per_day": 1,
+    "min_hours_between_posts": 12,
+    "max_hashtags": 10,
+    "max_client_posts_per_week": 1
+  }
+}

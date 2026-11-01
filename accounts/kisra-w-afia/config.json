@@ -1,0 +1,40 @@
+{
+  "name": "كسرة وعافية",
+  "type": "community",
+  "status": "pilot",
+  "niche": "أكل وصحة",
+  "platforms": [
+    "instagram",
+    "tiktok",
+    "facebook"
+  ],
+  "formats": [
+    "reel",
+    "carousel",
+    "image"
+  ],
+  "audience_timezone": "+03:00",
+  "autonomy": "every_post",
+  "ideas": {
+    "A": "وصفات سريعة بلمسة سودانية",
+    "B": "تبسيط معلومات التغذية وتصحيح المعتقدات الخاطئة"
+  },
+  "decisive_metric": "المشاهدات والمشاركة + نمو المتابعين",
+  "posts_per_week": 5,
+  "ai_label_required": false,
+  "banned_words": [
+    "يعالج",
+    "علاج",
+    "يشفي",
+    "يقضي على",
+    "مضمون",
+    "بديل الدواء",
+    "تخسيس سريع"
+  ],
+  "limits": {
+    "max_posts_per_day": 1,
+    "min_hours_between_posts": 12,
+    "max_hashtags": 10,
+    "max_client_posts_per_week": 1
+  }
+}

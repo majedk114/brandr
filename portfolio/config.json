@@ -1,0 +1,8 @@
+{
+  "studio": "Genx Studio",
+  "cross_learning": false,
+  "cross_learning_note": "مقفول أول 6 أسابيع. يتفتح بقرار صاحب المحفظة فقط.",
+  "pilot_accounts": ["tob-w-dahab", "kisra-w-afia", "hammoudi"],
+  "phase": "pilot",
+  "decision_gates": {"week_8": "أي فكرة تكمل في كل حساب", "week_13": "أي حسابات نفتح بعدها"}
+}

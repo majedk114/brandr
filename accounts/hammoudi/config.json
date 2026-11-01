@@ -1,0 +1,34 @@
+{
+  "name": "حمّودي",
+  "type": "persona",
+  "status": "pilot",
+  "niche": "شخصية كرتونية: كوميديا عائلية سودانية",
+  "platforms": [
+    "instagram",
+    "tiktok",
+    "facebook"
+  ],
+  "formats": [
+    "image",
+    "carousel"
+  ],
+  "audience_timezone": "+03:00",
+  "autonomy": "every_post",
+  "ideas": {
+    "A": "مواقف سودانية عائلية فكاهية (كوميكس)",
+    "B": "محتوى بسيط للأطفال والأسرة"
+  },
+  "decisive_metric": "المشاركة والتعليقات + تعلّق الناس بالشخصية",
+  "posts_per_week": 4,
+  "ai_label_required": false,
+  "banned_words": [
+    "قبيلة",
+    "عنصري"
+  ],
+  "limits": {
+    "max_posts_per_day": 1,
+    "min_hours_between_posts": 12,
+    "max_hashtags": 10,
+    "max_client_posts_per_week": 1
+  }
+}
