@@ -112,6 +112,21 @@ class Account:
         out = [p for p in out if not statuses or p["status"] in statuses]
         return sorted(out, key=lambda p: p.get("scheduled_for") or p["created_at"])
 
+    # ---- سجلات JSONL (أبحاث، لقطات نمو، دخل، استفسارات) ----------------
+    def append(self, name: str, row: dict) -> dict:
+        path = self.dir / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        row = {"at": now().isoformat(), **row}
+        with path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        return row
+
+    def rows(self, name: str) -> list[dict]:
+        path = self.dir / name
+        if not path.exists():
+            return []
+        return [json.loads(line) for line in path.read_text("utf-8").splitlines() if line.strip()]
+
     # ---- decisions log ------------------------------------------------
     def log_decision(self, item: str, decision: str, note: str = "") -> None:
         path = self.dir / "decisions.md"

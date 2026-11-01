@@ -26,8 +26,18 @@ def check(acc: Account, post: dict) -> list[str]:
         issues.append(f"منصات غير مفعلة أو فاضية: {sorted(bad) or '[]'}")
     if len(post.get("hashtags", [])) > limits["max_hashtags"]:
         issues.append(f"هاشتاقات أكثر من {limits['max_hashtags']}")
+    series = cfg.get("series", {})
+    if post.get("series") and post["series"] not in series:
+        issues.append(f"السلسلة {post['series']!r} مش من سلاسل الحساب {list(series)}")
+    variants = post.get("variants", {})
+    if set(variants) - set(post.get("platforms", [])):
+        issues.append(f"نسخ لمنصات مش ضمن منصات المنشور: {sorted(set(variants) - set(post.get('platforms', [])))}")
+    for plat, v in variants.items():
+        if len(v.get("hashtags", [])) > limits["max_hashtags"]:
+            issues.append(f"هاشتاقات نسخة {plat} أكثر من {limits['max_hashtags']}")
 
-    text = " ".join([post.get("hook", ""), post.get("caption", ""), " ".join(post.get("hashtags", []))]).lower()
+    text = " ".join([post.get("hook", ""), post.get("caption", ""), " ".join(post.get("hashtags", []))]
+                    + [f"{v.get('caption', '')} {' '.join(v.get('hashtags', []))}" for v in variants.values()]).lower()
     for w in cfg.get("banned_words", []):
         if w.lower() in text:
             issues.append(f"كلمة ممنوعة: {w}")

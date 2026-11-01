@@ -2,6 +2,7 @@
   "name": "حمّودي",
   "type": "persona",
   "status": "pilot",
+  "phase": "setup",
   "niche": "شخصية كرتونية: كوميديا عائلية سودانية",
   "platforms": [
     "instagram",
@@ -10,13 +11,18 @@
   ],
   "formats": [
     "image",
-    "carousel"
+    "carousel",
+    "reel"
   ],
   "audience_timezone": "+03:00",
   "autonomy": "every_post",
   "ideas": {
     "A": "مواقف سودانية عائلية فكاهية (كوميكس)",
     "B": "محتوى بسيط للأطفال والأسرة"
+  },
+  "series": {
+    "يوميات-حمودي": "موقف عائلي فكاهي في 3-5 لوحات (فكرة A)",
+    "حمودي-يتعلم": "حمّودي يتعلم حاجة أو قيمة بخفة (فكرة B)"
   },
   "decisive_metric": "المشاركة والتعليقات + تعلّق الناس بالشخصية",
   "posts_per_week": 4,
@@ -30,5 +36,8 @@
     "min_hours_between_posts": 12,
     "max_hashtags": 10,
     "max_client_posts_per_week": 1
-  }
+  },
+  "character_prompt": "2D cartoon illustration, a 9-year-old Sudanese boy named Hammoudi, warm brown skin, short curly black hair, big expressive eyes, short white jalabiya and white taqiya cap, clean bold outlines, warm flat colors, friendly expression, consistent character design",
+  "reference_images": [],
+  "formats_note": "reel هنا = لوحات الكوميكس كفيديو قصير بموسيقى وحركة بسيطة، لأن الفيديو هو اللي يوصل لغير المتابعين"
 }

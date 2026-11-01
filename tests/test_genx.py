@@ -5,7 +5,7 @@ import unittest
 from datetime import timedelta
 from pathlib import Path
 
-from genx import posts, reports
+from genx import packs, posts, reports, research
 from genx.cli import main
 from genx.workspace import Account, now
 
@@ -20,7 +20,7 @@ def when(days):
     return (now() + timedelta(days=days)).replace(hour=17, minute=0, second=0, microsecond=0).isoformat()
 
 
-class Flow(unittest.TestCase):
+class Base(unittest.TestCase):
     def setUp(self):
         self.root = Path(tempfile.mkdtemp())
         os.environ["GENX_ROOT"] = str(self.root)
@@ -42,6 +42,9 @@ class Flow(unittest.TestCase):
              "caption": f"نص {over.get('day', 1)}", "hashtags": ["#x"], "scheduled_for": when(over.pop("day", 1)),
              "hypothesis": "h", "production": {"type": "image", "prompt": "p"}}
         return posts.create(a, {**f, **over})
+
+
+class Flow(Base):
 
     def test_full_lifecycle(self):
         a = self.acc(); self.plan(a)
@@ -115,13 +118,61 @@ class Flow(unittest.TestCase):
         self.assertNotIn("سر الحساب", reports.portfolio([a]))
 
 
+class Extended(Base):
+    def test_series_and_variants_rules(self):
+        a = self.acc(series={"s1": "x"}); self.plan(a)
+        bad = self.draft(a, series="nope", variants={"facebook": {"caption": "فيه مضمون"}})
+        text = " ".join(posts.submit(a, bad["id"])[1])
+        for needle in ("السلسلة", "نسخ لمنصات", "كلمة ممنوعة"):
+            self.assertIn(needle, text)
+        ok = self.draft(a, day=3, caption="سليم", series="s1", variants={"instagram": {"caption": "نسخة"}})
+        self.assertEqual(posts.submit(a, ok["id"])[1], [])
+
+    def test_publish_pack_uses_variants(self):
+        a = self.acc(); self.plan(a)
+        p = self.draft(a, platforms=["instagram", "tiktok"], variants={"tiktok": {"caption": "قصير", "hashtags": ["#tt"]}})
+        posts.submit(a, p["id"]); posts.decide(a, p["id"], "approve"); posts.attach_media(a, p["id"], "img.png")
+        pack = packs.publish_pack(a)
+        self.assertIn("قصير", pack); self.assertIn("#tt", pack); self.assertIn(p["caption"], pack)
+
+    def test_persona_without_references_blocks_production(self):
+        a = self.acc(type="persona", reference_images=[], character_prompt="boy")
+        self.assertIn("ما عندها صور مرجعية", packs.production_pack(a))
+
+    def test_research_outliers_and_dedupe(self):
+        a = self.acc()
+        items = [{"source": "@c", "platform": "instagram", "url": f"u{i}", "likes": 10} for i in range(6)]
+        items.append({"source": "@c", "platform": "instagram", "url": "hit", "likes": 100, "caption": "خطاف قوي"})
+        self.assertEqual(research.ingest(a, items), 7)
+        self.assertEqual(research.ingest(a, items), 0)           # مكرر
+        top = research.outliers(a)
+        self.assertEqual([r["url"] for r in top], ["hit"])
+        self.assertIn("hit", research.summary(a))
+
+    def test_growth_leads_revenue_in_portfolio(self):
+        a = self.acc()
+        main(["snapshot", a.slug, "instagram", "followers=100"])
+        main(["snapshot", a.slug, "instagram", "followers=150"])
+        main(["lead", a.slug, "محل ذهب", "عايز منشور"])
+        main(["revenue", a.slug, "500", "محل ذهب", "--currency", "QAR"])
+        self.assertIn("+50", reports.growth(a))
+        port = reports.portfolio([a])
+        self.assertIn("150", port); self.assertIn("500 QAR", port)
+        main(["lead-close", a.slug, "0", "اتفقنا"])
+        self.assertEqual(a.rows("leads.jsonl")[0]["status"], "closed")
+        self.assertNotIn("عايز منشور", port)                     # المحفظة ما تعرض تفاصيل
+
+
 class RealAccounts(unittest.TestCase):
     def test_repo_accounts_load(self):
         os.environ.pop("GENX_ROOT", None)
         accs = Account.all(Path(__file__).resolve().parent.parent)
         self.assertEqual({a.slug for a in accs}, {"tob-w-dahab", "kisra-w-afia", "hammoudi"})
         for a in accs:
-            self.assertIn(set(a.config["ideas"]), [{"A", "B"}])
+            self.assertEqual(set(a.config["ideas"]), {"A", "B"})
+            self.assertTrue(a.config["series"])
+            for f in ("brand.md", "ideas.md", "community.md", "launch.md", "playbook.md"):
+                self.assertTrue(a.doc(f), f"{a.slug}/{f}")
 
 
 if __name__ == "__main__":

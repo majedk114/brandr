@@ -15,7 +15,7 @@ TRANSITIONS = {
     "published": set(),
     "rejected": set(),
 }
-EDITABLE = ("plan", "idea", "pillar", "format", "platforms", "hook", "caption", "hashtags", "cta", "scheduled_for",
+EDITABLE = ("plan", "idea", "series", "experiment", "variants", "pillar", "format", "platforms", "hook", "caption", "hashtags", "cta", "scheduled_for",
             "hypothesis", "production", "client", "paid_disclosure", "ai_label", "notes")
 
 
